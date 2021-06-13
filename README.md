@@ -1,4 +1,4 @@
-![header](https://capsule-render.vercel.app/api?type=wave&color=48dbfb&height=200&section=header&text=js-diver-study&animation=fadeIn&fontColor=090707&fontAlignX=45&fontAlignY=65&fontSize=100)
+![header](https://capsule-render.vercel.app/api?type=wave&color=48dbfb&height=200&section=header&text=js-diver-study🏊🏻‍♂️&animation=fadeIn&fontColor=090707&fontAlignX=45&fontAlignY=65&fontSize=100)
 
 ### <img src="https://img.shields.io/badge/Notion_Site-000000?style=flat-square&logo=Notion&logoColor=white"/>
 #### ✏️ 스터디일정
