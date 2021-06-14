@@ -1,3 +1,4 @@
+---
 - **들어가며**
     - 프로그래머의 역할은 무엇일까?
 
@@ -24,6 +25,7 @@
 
     → [**의도적인 연습**](http://coachround.com/deliberate-practice/) : 자신의 능력을 살짝 넘어서는 도전을 지속적으로 시도하는 것.
 
+---
 - **01장: 프로그래밍**
     - 프로그래밍이란? 프로그래밍 언어 사용해 컴퓨터에게 실행을 요구하는 일종의 커뮤니케이션
 
@@ -55,14 +57,13 @@
 
         결국 프로그래밍은 요구사항의 집합을 분석해 적절한 자료구조와 함수의 집합으로 변환한 후, 그 흐름을 제어하는 것.
 
+---
 - **02장: 자바스크립트란?**
     - 자바스크립트의 탄생 : 1995년 웹페이지의 보조적인 기능을 수행하기 위해 브라우저에서 동작하는 경량 프로그래밍 언어를 도입하기 위해 브렌던 아이크가 자바스크립트를 개발
 
     - 자바스크립트의 표준화 : 마이크로소프트에서 출시한 자바스크립의 파생 버전 "JScript"는 자바스크립트와 적당히 호환되었으나, 브라우저에 따라 크로스 브라우징 이슈 발생
 
         → 그래서 **ECMAScript** 탄생! ES6에서는 let/const 키워드, 화살표 함수, 클래스, 모듈 등 기능 대거 도입.
-
-        ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5f9cd6f6-30b6-4d50-bc82-96866dfa5ede/.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5f9cd6f6-30b6-4d50-bc82-96866dfa5ede/.png)
 
         → 2020년도에 ES11(ECMAScript 2020)까지 나왔다. ([ES 버전 별 특징 간단하게 살펴보기](https://medium.com/sjk5766/ecma-script-es-%EC%A0%95%EB%A6%AC%EC%99%80-%EB%B2%84%EC%A0%84%EB%B3%84-%ED%8A%B9%EC%A7%95-77715f696dcb))
 
@@ -96,31 +97,16 @@
 
     - [ES6 브라우저 지원 현황](http://kangax.github.io/compat-table/es6/)
 
-        ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/efbd9272-5744-45bf-9083-31d9818fd336/ECMAScript_6_compatibility_table.jpg](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/efbd9272-5744-45bf-9083-31d9818fd336/ECMAScript_6_compatibility_table.jpg)
-
         (구형 브라우저는 Babel과 같은 트랜스파일러 활용해 ES5 이하 사양으로 다운그레이드 가능)
 
+---
 - **03장: 자바스크립트 개발 환경과 실행 방법**
     - 자바스크립트 실행 환경 : 자바스크립트는 브라우저 환경 또는 Node.js 환경에서 실행 가능.
-    - 웹 브라우저 : 여기선 [구글 크롬](https://www.google.com/intl/ko/chrome/) 사용.
-        - 개발자 도구
-        - 콘솔
-        - 브라우저에서 자바스크립트 실행
-        - 디버깅
     - Node.js
         - Node.js와 npm 소개 : npm(node package manager)은 자바스크립트 패키지 매니저.
-        - [모듈화와 npm](https://poiemaweb.com/nodejs-npm) : Client-side JavaScript의 경우, script 태그를 사용하여 외부의 스크립트 파일을 가져올 수는 있지만, 파일마다 독립적인 파일 Scope를 갖지 않고 하나의 전역 객체(Global Object)에 바인딩되기 때문에, 전역변수가 중복되는 등의 문제가 발생할 수 있다.
+        - [모듈화와 npm](https://poiemaweb.com/nodejs-npm) : Client-side JavaScript의 경우, script 태그를 사용하여 외부의 스크립트 파일을 가져올 수는 있지만, 파일마다 독립적인 파일 Scope를 갖지 않고 하나의 전역 객체(Global Object)에 바인딩되기 때문에, 전역변수가 중복되는 등의 문제가 발생할 수 있다. (브라우저에서의 모듈 사용은 대부분의 브라우저가 ES6의 모듈을 지원하지 않고 있으므로 Browserify 또는 webpack과 같은 모듈 번들러를 사용하여야 한다.)
 
-            브라우저에서의 모듈 사용은 대부분의 브라우저가 ES6의 모듈을 지원하지 않고 있으므로 Browserify 또는 webpack과 같은 모듈 번들러를 사용하여야 한다.
-
-        - [Node.js 설치](https://nodejs.org/ko/)
-        - Node.js REPL
-    - 비주얼 스튜디오 코드 : 많이 쓰는 코드 에디터
-        - [비주얼 스튜디오 코드 설치](https://code.visualstudio.com/)
-        - 내장 터미널
-        - Code Runner 확장 플러그인 : vscode 내장 터미널에서 단축키로 소스코드 간단히 실행
-        - Live Server 확장 플러그인 : 소스코드 수정할 때마다 브라우저에 자동 반영
-
+---
 - **04장: 변수**
     - **변수**란 무엇인가? 왜 필요한가?
 
@@ -133,13 +119,7 @@
         // 10+20은 연산을 통해 30이 되고, 메모리 공간에 저장된다. 그리고 변수 result로 참조
         ```
 
-    - **식별자** : 변수 이름을 식별자라고도 한다.
-
-        식별자는 메모리 공간에 저장되어 있는 어떤 값을 구별해서 식별해낼 수 있어야 한다.
-
-        즉, 식별자는 값이 아닌 메모리 주소를 기억하고 있고, 값이 저장되어 있는 메모리 주소와 매핑 관계를 맺으며, 이 매핑 정보도 메모리에 저장되어야 한다.
-
-        ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7b53c91a-501a-4d82-a8c9-5e3d92002f5d/img.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7b53c91a-501a-4d82-a8c9-5e3d92002f5d/img.png)
+    - **식별자** : 변수 이름을 식별자라고도 한다. 식별자는 값이 아닌 메모리 주소를 기억하고 있고, 값이 저장되어 있는 메모리 주소와 매핑 관계를 맺으며, 이 매핑 정보도 메모리에 저장되어야 한다.
 
     - **변수 선언** : 변수를 생성하는 것. 값을 저장하기 위한 메모리 공간을 확보하고(allocate), 변수 이름과 확보된 메모리 공간의 주소를 연결(name binding)해서 값을 저장할 수 있게 준비하는 것이다. (var, let, const 키워드 사용. ES6에서 let, const 도입. var 단점은 15장에서 살펴본다.)
 
@@ -148,7 +128,7 @@
         // 선언만 하는 경우 기본적으로 값 undefined(원시타입)이 암묵적으로 할당되어 초기화된다.
         ```
 
-        - 자바스크립트의 모든 식별자는 자바스크립트 엔진의 [실행 컨텍스트](https://poiemaweb.com/js-execution-context)에 등록된다. (23장)
+        (자바스크립트의 모든 식별자는 자바스크립트 엔진의 [실행 컨텍스트](https://poiemaweb.com/js-execution-context)에 등록된다. 23장)
 
     - 변수 선언의 실행 시점과 변수 호이스팅
 
@@ -176,8 +156,6 @@
     - 값의 재할당 : 변수에 저장된 값을 다른 값으로 변경하는 것.
 
         재할당할 수 없고 변수 값 변경 할 수 없으면 상수. 상수는 단 한 번만 할당할 수 있는 변수다.
-
-        ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f4aacbb0-32a5-46c0-9189-d15051613067/memory.jpg](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f4aacbb0-32a5-46c0-9189-d15051613067/memory.jpg)
 
         → 재할당 이후 더이상 사용되지 않는 값 undefined와 80은 가비지 콜렉터가 메모리에서 자동 해제한다. 자바스크립트는 가비지 콜렉터를 내장하고 있는 매니지드 언어이다.
 
@@ -224,6 +202,7 @@
         var observable$ = fromEvent(document, 'click'); // RxJS 옵저버블
         ```
 
+---
 - **05장: 표현식과 문**
     - **값** : 식(표현식 expression)이 평가(evaluate)되어 생성된 결과를 말한다. 여기서 평가란 식을 해석해서 값을 생성하거나 참조하는 것을 의미한다.
 
@@ -343,20 +322,11 @@
         // 이처럼 할당문을 값처럼 변수에 할당할 수 있다.
         ```
 
-        표현식인 문은 값으로 평가될 수 있는 문, 표현식이 아닌 문은 값으로 평가될 수 없는 문.
+        표현식인 문은 값으로 평가될 수 있는 문, 표현식이 아닌 문은 값으로 평가될 수 없는 문. (표현식 문과 표현식 아닌 문을 구별하는 가장 간단하고 명료한 방법? 변수에 할당해 보는 것)
+        
+        크롬 개발자 도구에서 표현식이 아닌 문을 실행하면 언제나 undefined를 출력. 표현식인 문을 실행하면 언제나 평가된 값을 반환.
 
-        표현식 문과 표현식 아닌 문을 구별하는 가장 간단하고 명료한 방법? 변수에 할당해 보는 것.
-
-        크롬 개발자 도구에서 표현식이 아닌 문을 실행하면 언제나 undefined를 출력. 
-
-        이를 완료 값(completion value)이라 한다. 완료 값은 표현식의 평가 결과가 아니다.
-
-        ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/de075d76-29f7-4435-b20e-653a24e23f90/1.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/de075d76-29f7-4435-b20e-653a24e23f90/1.png)
-
-        표현식인 문을 실행하면 언제나 평가된 값을 반환.
-
-        ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/37e9f997-03e1-4471-acc2-495b45618f15/2.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/37e9f997-03e1-4471-acc2-495b45618f15/2.png)
-
+---
 - **06장: 데이터 타입**
     - 데이터 타입 : 값의 종류. 자바스크립트의 모든 값은 데이터 타입을 갖는다.
 
@@ -396,10 +366,6 @@
         console.log(10 / -0); // -Infinity
         console.log(1 * 'String'); // NaN, 대소문자 구별하므로 주의 필요
         ```
-
-        ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cfdcc9a1-2c1b-43c5-a8a3-755fbd914353/11.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cfdcc9a1-2c1b-43c5-a8a3-755fbd914353/11.png)
-
-        → 모든 숫자 타입은 실수로 처리되어 발생하는 문제. 필요하면 아래처럼 처리할 것 같다.
 
     - **문자열 타입** : 텍스트 데이터 나타내는 데 사용. UTF-16의 집합.
 
@@ -501,6 +467,7 @@
 
         (자바스크립트는 값을 할당하는 시점에 변수의 타입이 동적으로 결정된다. 재할당으로 변수의 타입도 동적으로 변경 가능, 재할당이 자유로운만큼 주의해서 사용)
 
+---
 - **07장: 연산자**
     - **산술 연산자** : 피연산자를 계산해 새로운 숫자 값을 만듦. 산술 연산 불가능한 경우 NaN 반환.
         - 이항 산술 연산자 : 2개의 피연산자를 연산하여 숫자 값을 만듦. (+, -, *, /, %)
