@@ -11,8 +11,6 @@
     - 변수 : 하나의 값을 저장하기 위한 메모리 공간 식별자
     - 자료 구조( 배열 []과 객체 {} ) : 연관 데이터 그룹화( 구조화 ) 저장
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/082f8ff2-1fbb-4385-b43e-2c0d803600f0/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/082f8ff2-1fbb-4385-b43e-2c0d803600f0/Untitled.png)
-
 □ 변수 정리
 
 ```jsx
@@ -52,11 +50,3 @@ var 변수명 = 값; // 변수 선언 및 초기 값 할당
 	- 클래스/생성자함수 : var PascalCase;
 */
 ```
-
-□ 예약어( keyword )
-
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/adf150ba-0cf0-4c14-985d-bfe8a9e4b324/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/adf150ba-0cf0-4c14-985d-bfe8a9e4b324/Untitled.png)
-
-□ garbage collector( 자동 메모리 관리 )
-
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8e1c3ce0-0f92-48a2-bdcb-33b18158aa67/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8e1c3ce0-0f92-48a2-bdcb-33b18158aa67/Untitled.png)
