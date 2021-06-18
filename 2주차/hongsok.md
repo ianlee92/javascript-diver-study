@@ -203,3 +203,121 @@
     var foo = '' ?? 'default';
     console.log(foo); // ''
     ```
+
+
+
+- **10장: 객체 리터럴**
+    - 자바스크립트는 객체 기반의 프로그래밍 언어. 원시 값을 제외한 값은 모두 객체.
+    - 원시 값은 변경 불가, 객체 값은 변경 가능.
+
+    - 자바스크립트는 프로토타입 기반 객체지향 언어. 클래스 기반과 달리 객체 생성 방법 다양함.
+    - 객체 생성 방법 : 객체 리터럴, Object 생성자 함수, 생성자 함수, Object.create, 클래스(ES6)
+
+        ```jsx
+        // 객체 생성 : 객체 리터럴 사용 방법, {} 내에 프로퍼티 정의
+        var person = {
+        	name: 'Lee', // 객체의 각 프로퍼티는 키와 값으로 구성
+        	sayHello: function() {},
+        	firstName: 'hongsok', // 식별자 네이밍 규칙을 준수하는 프로퍼티 키
+        	'last-name': 'an', // 식별자 네이밍 규칙을 준수하지 않는 프로퍼티 키는 따옴표를 붙여야 함
+        	last-name: 'an' // SyntaxError, 자바스크립트 엔진이 '-'를 연산자로 인식하기 때문
+        };
+        ```
+
+        → 코드 블록과 다르다. 객체 리터럴은 값으로 평가되는 표현식이므로, 뒤에 세미콜론을 붙인다.
+
+    - 자바스크립트에서 함수는 일급 객체이므로 값으로 취급, 프로퍼티의 값으로도 사용할 수 있다.
+
+        ```jsx
+        var circle = {
+        	radius : 5, // 프로퍼티
+
+        	getDiameter: function() { // 메서드
+        		return 2 * this.radius;
+        	}
+        }
+
+        console.log(circle.radius); // 5
+        console.log(circle['radius']); // 5
+        console.log(circle[radius]); // ReferenceError: radius is not defined
+        console.log(circle.name); // undefined, 존재하지 않는 프로퍼티에 접근해도 에러 X
+
+        circle.radius = 6; // 프로퍼티 값 갱신
+        circle.color = 'red'; // 프로퍼티 동적 생성
+        delete circle.color; // 프로퍼티 삭제
+
+        ```
+
+    - ES6부터 사용 가능한 객체 리터럴 확장 기능
+
+        ```jsx
+        let x = 1, y = 2;
+        const obj = { x, y }; // {x: 1, y: 2}, 프로퍼티 키는 변수 이름으로 자동 생성
+        ```
+
+        ```jsx
+        // 계산된 프로퍼티 이름(문자열로 타입 변환 가능한 값의 표현식으로 동적 생성한 프로퍼티 키)
+        // ES5
+        var prefix = 'prop';
+        var obj = {};
+
+        for (var i = 0; i < 3; i++) {
+            obj[prefix + '-' + i] = i;
+        };
+        console.log(obj); // {prop-0: 0, prop-1: 1, prop-2: 2}
+
+        // ES6
+        const prefix = 'prop';
+        const obj = {};
+
+        for (let i = 0; i < 3; i++) {
+            obj[`${prefix}-${i}`] = i
+        }
+        console.log(obj); // {prop-0: 0, prop-1: 1, prop-2: 2}
+        ```
+
+- **11장: 원시 값과 객체의 비교**
+    1. 원시 값은 변경 불가 ↔ 객체 값은 변경 가능
+    2. 원시 값을 변수에 할당하면 실제 값 저장 ↔ 객체를 변수에 할당하면 참조 값 저장
+    3. 원시 값을 갖는 변수를 다른 변수에 할당하면 원시 값이 복사되어 전달 (값에 의한 전달, 깊은 복사)
+
+        객체를 가리키는 변수를 다른 변수에 할당하면 참조 값이 복사되어 전달 (참조에 의한 전달, 얕은 복사)
+
+        ([자바스크립트 참조 복사와 값 복사](https://wanna-b.tistory.com/18))
+
+    ```jsx
+    // 자바스크립트에서 문자열은 유사 배열 객체(배열처럼 인덱스 접근 가능, length 프로퍼티 갖고 있음)
+    var str = 'hello';
+    console.log(str[0]); // h
+    console.log(str.length); // 5
+    console.log(str.toUpperCase()); // HELLO
+
+    str[0] = 'H'; // 문자열은 원시 값이기 때문에 각 인덱스의 문자를 변경할 수는 없다.(에러 발생 X)
+    console.log(str); // hello
+    ```
+
+    ```jsx
+    // 값에 의한 전달
+    var score = 80;
+    var copy = score;
+    console.log(score, copy); // 80 80, 값이 복사되어 할당(두 개의 80)
+    console.log(score === copy); // true
+
+    score = 100;
+    console.log(score, copy); // 100 80, 값이 복사되어 전달되었기 때문에 score 값만 변경됨.
+    console.log(score === copy); // false
+    ```
+
+    → 엄밀히 따지면 변수에는 값이 전달되는 것이 아닌 값이 저장된 메모리 주소가 전달된 것.
+
+    - 자바스크립트는 클래스 없이 객체 생성, 동적으로 프로퍼티와 메서드 추가 가능
+
+        ```jsx
+        // 자바스크립트의 객체는 변경 가능한 값
+        // 할당이 이뤄지는 시점에 객체 리터럴 해석, 그 결과 객체가 생성됨.
+        var person = { // person에 접근하면 객체의 참조 값에 접근
+        	name: 'Lee'
+        };
+        ```
+
+        → 객체는 변경이 가능하므로 재할당 없이 객체를 직접 수정 가능(프로퍼티 추가, 값 갱신, 삭제 등)
