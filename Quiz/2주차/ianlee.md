@@ -38,7 +38,7 @@ undefined + ''      //
 !![]        // 
 ```
 
-<img src="../answer.jpeg">
+<img src="../icon.png">
 
 ⇒
 
@@ -99,7 +99,7 @@ console.log(person['age']); // (6)
 // 보기 1) Lee 2) undefined 3) ReferenceError: lastName is not defined
 ```
 
-<img src="../answer.jpeg">
+<img src="../icon.png">
 
 ⇒ (1) 1 (2) 2 (3) 3 (4) 1 (5) 3 (6) 2
 

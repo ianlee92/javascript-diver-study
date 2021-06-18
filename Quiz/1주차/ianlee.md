@@ -9,7 +9,7 @@ var score;
 console.log(score); // (2)
 ```
 
-<img src="../answer.jpeg">
+<img src="../icon.png">
 
 ⇒ (1) undefined (2) 80
 
@@ -44,7 +44,7 @@ const z = 0;
 console.log(z); // (6)
 ```
 
-<img src="../answer.jpeg">
+<img src="../icon.png">
 
 ⇒ (1) 1 (2) 1 (3) 1 (4) 0 (5) 1 (6) 0
 
