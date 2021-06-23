@@ -196,7 +196,7 @@ console.log(str);
 - Object.create  메서드
 - 클래스( ES6 )
 
-□ 객체 사용 방법
+□ 객체 리터럴 사용 방법
 
 ```jsx
 /* literal 객체 생성 */
