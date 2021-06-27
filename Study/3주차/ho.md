@@ -169,3 +169,203 @@ repeat(5, function(i) {
 - 함수형 프로그래밍( immutability ) : 순수 함수 + 헬퍼 함수 사용 종속성 제거
     - 순수 함수( 사용 권장 ) : 매개 변수 값 복사 사용 > 외부 상태 영향도 없음
     - 비 순수 함수 :  매개 변수 객체 전달 사용 + 전역( 외부 ) 변수 접근 > 외부 상태 영향
+
+---
+
+# 13장 스코프(https://www.notion.so/13-Scope-4d2c7ca4b3b8411fa1b87d1c83ff331b)
+□ 스코프( Scope )
+
+- 유효 범위 : 모든 식별자( 변수, 함수, 클래스 등 )  **선언 위치 따른 유효 범위 결정**
+    - 전역 스코프 : 코드 가장 바깥 영역 변수 선언 > 전역 참조
+    - 지역 스코프 : 함수 내부 영역 변수 선언 > 선언 함수 내부 참조
+
+□ 스코프 체인
+
+- 식별자 검색 방법 : 상위 스코프 방향으로 이동하며 식별자 검색
+
+□ 함수 상위 스코프 결정 방법
+
+- **렉시컬/정적( lexical/static ) 스코프** : 함수 선언 시점 상위 스코프 결정
+- 동적( dynamic ) 스코프 : 함수 호출 시점 상위 스코프 결정
+
+```jsx
+var x = 1;
+function foo() {
+    var x = 10;
+    bar();
+}
+
+function bar() {
+    console.log(x);
+}
+
+// 자바스크립트 렉시컬/정적 스코프 : 함수 선언 시점 사위 스코프 결정
+foo(); // 1 
+bar(); // 1
+```
+
+---
+
+# 14장 전역 변수의 문제점(https://www.notion.so/14-5512cce225d04ae881252b3dc2c9ad3b)
+□ 스코프( 유효 범위 ) 단위 호이스팅
+
+```jsx
+var x = 'global';
+
+function foo() {
+    console.log(x); // 지역 scope 호이스팅
+    var x = 'local';
+}
+
+foo(); // undefined
+console.log(x); // global
+```
+
+□ 변수의 생명 주기
+
+- 지역 변수 : 함수 생명 주기 일치
+- 전역 변수 : 전역( 브라우저 window ) 객체 생명 주기 일치
+
+□ 전역 변수 문제점
+
+- 암묵적 결합( implicit coupling ) 허용 : 모든 코드가 변수 참조 및 변경 가능 > 코드 가독성 하락, 의도치 않은 상태 변경
+- 긴 생명 주기 : 메모리 리소스 오래 사용
+- 스코프 체인 종점 : 변수 검색 속도 느림
+- 네임스페이스 오염 : 파일 분리( 모듈화 ) 전역 스코프 공유
+
+□ 전역 변수 억제 방법
+
+- 즉시 실행 함수 : 모든 변수 익명 함수의 지역 변수 포함
+
+```jsx
+(function() {
+    var foo = 1;
+}());
+
+console.log(foo); //ReferenceError
+```
+
+- 네임스페이스 객체 : 하나의 전역 객체( 변수 ) 생성 후 프로퍼티 포함
+
+```jsx
+var MYAPP = {};
+
+MYAPP.person = {
+	name: 'Lee',
+	address: 'Seoul'
+}
+console.log(MYAPP.person.name);
+```
+
+- 모듈 패턴( 클래스 모방 )
+    - 연관된 변수( 상태 )와 함수( 동작 ) 그룹핑
+    - 캡슐화( 정보 은닉 ) : 외부 접근으로부터 내부 보호
+
+```jsx
+var Counter = (function() {
+    var num = 0; // private 변수 : 내부만 접근
+
+    return {
+        increase() {
+            return ++num;
+        },
+        decrease() {
+            return --num;
+        },
+    };
+}());
+
+console.log(Counter.num);        // 외부 접근 불 가능
+console.log(Counter.increase()); // 메소드 이용 접근 가능
+console.log(Counter.decrease());
+```
+
+- ES6 모듈 : 전역 변수( window 프로퍼티 ) 사용 불 가능 > 파일 별 모듈 스코프 제공
+
+```jsx
+<script type="module" src="모듈파일명.mjs"></script>
+```
+
+---
+
+
+# 15장 let, const 키워드와 블록 레벨 스코프(https://www.notion.so/15-let-const-92b50d4c69a44a60b2102c26d2540fbf)
+□ var 변수 문제점
+
+- 중복 선언 허용 : 의도치 않은 중복 선언 및 값 변경 가능성
+
+```jsx
+var x = 1;
+var x = 100;
+console.log(x);
+
+// let
+let x = 1;
+var x = 100; // 중복 선언 에러 발생
+console.log(x);
+```
+
+- 함수 레벨 스코프 : 의도치 않은 전역 변수+ 중복 선언 및 값 변경 가능성
+
+```jsx
+// 함수 내부 선언 변수만 지역 변수
+var i = 10;
+for (var i = 0; i < 5; i++) { // if, for문 블록 전역 변수 > 중복 선언
+    console.log(i); // 전역 변수 i 출력
+}
+console.log(i); // 전역 변수 i 출력
+
+// let
+let i = 10;
+for (let i = 0; i < 5; i++) { // 블록 레벨 스코프 지역 변수
+    console.log(i); // 지역 변수 i 출력
+}
+console.log(i); // 전역 변수 i 출력
+
+```
+
+- 변수 호이스팅 : 선언 전 사용 가능 에러 발생하지 않음
+
+```jsx
+console.log(foo); // undefined
+var foo = 1;
+console.log(foo); // 1
+
+// let
+console.log(foo); // 미 선언 오류 발생
+let foo = 1;
+console.log(foo);
+
+// let 호이스팅 발생하지 않는 것처럼 동작
+let foo = 1;
+{
+    console.log(foo); // let 호이스팅 발생 > 전역 변수 참조 X
+    let foo = 2;
+}
+```
+
+□ 브라우저 전역 객체 window
+
+- var 전역 변수 : window 전역 객체 프로퍼티
+- let, const 전역 변수 : window 전역 객체 프로퍼티 아님
+
+□ 상수 const
+
+```jsx
+// 가독성 : 프로그램 전체 고정 값 상수명 의미 부여 및 변경 방지
+const STUDY_NAME = '자바스크립트 다이버'; // 선언과 동시 초기화 필수, 초기 값 변경 시 참조한 모든 곳 적용
+STUDY_NAME = 'vue react'; // 오류 발생 재 할당 불 가능
+
+// const 변수 재 할당 금지 의미 > 불변 값 의미하지 않음
+const study = {
+	name: '자바스크립트 다이버'  
+}
+study.name = 'vue react'; 
+console.log(study.name);  // 객체 값 변경 가능
+```
+
+□ ES6 변수 선언 방법
+
+- var : 미 사용
+- const : 기본 변수 선언
+- let : 변수 재 할당 필요한 경우 사용
