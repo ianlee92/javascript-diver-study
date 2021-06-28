@@ -1,10 +1,6 @@
 - **12장: 함수**
     - 함수 : 일련의 과정을 문으로 구현하고, 코드 블록으로 감싸서, 하나의 실행 단위로 정의한 것
 
-        ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a95a60cc-524c-43ac-a70e-19883649e047/.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a95a60cc-524c-43ac-a70e-19883649e047/.png)
-
-        ([이미지 출처](https://user-images.githubusercontent.com/31315644/66568713-f6d79c00-eba4-11e9-8280-018cc5ef6b77.jpeg))
-
     ```jsx
     // 함수는 객체 타입의 값. 함수 리터럴로 생성 가능
     var f = function add(x, y) {
