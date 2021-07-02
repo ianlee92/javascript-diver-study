@@ -236,4 +236,225 @@ console.log(circle.getDiameter()); // 10
 
 ### 📅 2021년 7월 1일 목요일
 # 📚 18장 함수와 일급 객체
+- 함수를 다른 변수와 동일하게 다루는 언어는 일급 함수를 가졌다고 표현하는데 일급 함수를 가진 언어에서는 변수에 할당할 수 있고 함수를 다른 함수에 매개변수로 제공하거나, 함수가 함수를 반환할 수 있다.
+
+    ```jsx
+    // 변수에 할당
+    const foo = function() {
+      console.log("foobar");
+    }
+    foo(); // 변수를 사용해 호출
+
+    // 인자로 전달
+    function sayHello() {
+      return "Hello, ";
+    }
+    function greeting(helloMessage, name) {
+      console.log(helloMessage() + name);
+    }
+    // `sayHello`를 `greeting` 함수에 인자로 전달
+    greeting(sayHello, "JavaScript!");
+
+    // 함수를 반환
+    function sayHello() {
+       return function() {
+          console.log("Hello!");
+       }
+    }
+    ```
+
+- arguments, caller, length, name, prototype 프로퍼티는 모두 함수 객체의 데이터 프로퍼티다. __proto__는 접근자 프로퍼티이며, 함수 객체 고유의 프로퍼티가 아니라 Object.prototype 객체의 프로퍼티를 상속받은 것을 알 수 있다.
+- 함수 객체의 arguments 프로퍼티 값은 arguments 객체이며 함수 호출 시 전달된 인수(argument)들의 정보를 담고 있는 순회 가능한(iterable) 유사 배열 객체이고 함수 내부에서 지역 변수처럼 사용된다. 즉, 함수 외부에서는 참조할 수 없다.
+- 자바스크립트는 함수의 매개변수와 인수의 개수가 일치하는지 확인하지 않는다. 따라서 함수 호출 시 매개변수 개수만큼 인수를 전달하지 않아도 에러가 발생하지 않는다.
+- 함수가 호출되면 함수 몸체 내에서 암묵적으로 매개변수가 선언되고 undefined로 초기화된 이후 인수가 할당된다.
+- arguments 객체는 매개변수 개수를 확정할 수 없는 가변 인자 함수를 구현할 때 유용하다.
+
+    ```jsx
+    function sum() {
+      let res = 0;
+      
+      // arguments 객체는 length 프로퍼티가 있는 유사 배열 객체이므로 for 문으로 순회할 수 있다.
+      for (let i = 0; i < arguments.length; i++) {
+        res += arguments[i];
+      }
+      
+      return res;
+    }
+
+    console.log(sum());         // 0
+    console.log(sum(1, 2));     // 3
+    console.log(sum(1, 2, 3));  // 6
+    ```
+
+- 함수 객체의 length 프로퍼티는 함수를 정의할 때 선언한 매개변수의 개수를 가리킨다.
+
+    ```jsx
+    function foo() {}
+    console.log(foo.length); // 0
+
+    function bar(x, y) {
+      return x * y;
+    }
+    console.log(bar.length); // 2
+    ```
+
+- arguments 객체의 length 프로퍼티는 인자(argument)의 개수를 가리키고, 함수 객체의 length 프로퍼티는 매개변수(parameter)의 개수를 가리킨다.
+
+    ![https://blog.kakaocdn.net/dn/l0i6C/btq8ujYGioC/lVgkzkXC9hKvG6HJagWlWk/img.jpg](https://blog.kakaocdn.net/dn/l0i6C/btq8ujYGioC/lVgkzkXC9hKvG6HJagWlWk/img.jpg)
+
+- 함수 객체의 name 프로퍼티는 함수 이름을 나타낸다. 기명 함수 표현식과 함수 선언문은 함수 이름을 나타내고 익명 함수 표현식일 때 ES6는 함수 객체를 가리키는 변수 이름을 값으로 갖는다.
+
+    ```jsx
+    // 함수 선언문(Function declaration)
+    function bar() {}
+    console.log(bar.name); // bar
+
+    // 기명 함수 표현식
+    var namedFunc = function foo() {};
+    console.log(namedFunc.name); // foo
+
+    // 익명 함수 표현식
+    var anonymousFunc = function() {};
+    console.log(anonymousFunc.name); // anonymousFunc
+    ```
+
+- 모든 객체는 [[Prototype]]이라는 내부 슬롯을 갖는다. [[Prototype]] 내부 슬롯은 객체지향 프로그래밍의 상속을 구현하는 프로토타입 객체를 가리킨다. __proto__ 프로퍼티는 [[Prototype]] 내부 슬롯이 가리키는 프로토타입 객체에 접근하기 위해 사용하는 접근자 프로퍼티다.
+- prototype 프로퍼티는 생성자 함수로 호출할 수 있는 함수 객체, 즉 constructor만이 소유하는 프로퍼티다. 일반 객체와 생성자 함수로 호출할 수 없는 non-constructor에는 prototype 프로퍼티가 없다.
 # 📚 19장 프로토타입 (~p279)
+- 자바스크립트는 클래스 기반 객체지향 프로그래밍 언어보다 효율적이며 더 강력한 객체지향 프로그래밍 능력을 지니고 있는 명령형(imperative) 함수형(functional) 프로토타입 기반의 객체지향 프로그래밍 언어(prototype-based OOP: Object-Oriented Programming)다.
+- 자바스크립트는 객체 기반의 프로그래밍 언어이며 자바스크립트를 이루고 있는 거의 모든 것이 객체다. 원시 타입(primative type)의 값을 제외한 나머지 값들(함수, 배열, 정규 표현식 등)은 모두 객체다.
+- 자바스크립트는 프로토타입(prototype)을 기반으로 상속을 구현한다. 상속은 코드의 재사용이란 관점에서 매우 유용하다. 생성자 함수가 생성할 모든 인스턴스가 공통적으로 사용할 프로퍼티나 메서드를 프로토타입에 미리 구현해 두면 생성자 함수가 생성할 모든 인스턴스는 별도의 구현없이 상위(부모) 객체인 프로토타입의 자산을 공유하여 사용할 수 있다.
+
+    ```jsx
+    // 생성자 함수
+    function Circle(radius) {
+      this.radius = radius;
+    }
+
+    // Circle 생성자 함수가 생성한 모든 인스턴스가 getArea 메서드를
+    // 공유해서 사용할 수 있도록 프로토타입에 추가한다.
+    // 프로토타입은 Circle 생성자 함수의 prototype 프로퍼티에 바인딩되어 있다.
+    Circle.prototype.getArea = function () {
+      return Math.PI * this.radius ** 2;
+    };
+
+    // 인스턴스 생성
+    const Circle1 = new Circle(1);
+    const Circle2 = new Circle(2);
+
+    // Circle 생성자 함수가 생성한 모든 인스턴스는 부모 객체의 역할을 하는
+    // 프로토타입 Circle.prototype으로부터 getArea 메서드를 상속받는다.
+    // 즉, Circle 생성자 함수가 생성하는 모든 인스턴스는 하나의 getArea 메서드를 공유한다.
+    console.log(circle1.getArea === circle2.getArea); // true
+
+    console.log(circle1.getArea()); // 3.141592..
+    console.log(circle2.getArea()); // 12.56637..
+    ```
+
+- 모든 객체는 [[Prototype]]이라는 내부 슬롯을 가지며, 이 내부 슬롯의 값은 프로토타입의 참조다. 객체가 생성될 때 객체 생성 방식에 따라 프로토타입이 결정되고 [[Prototype]]에 저장된다. 객체와 프로토타입과 생성자 함수는 서로 연결되어 있다.
+
+    ![https://blog.kakaocdn.net/dn/bevgk5/btq8zxDclub/jrukk1rZXjL2KluvB5l1QK/img.jpg](https://blog.kakaocdn.net/dn/bevgk5/btq8zxDclub/jrukk1rZXjL2KluvB5l1QK/img.jpg)
+
+- __proto__ 접근자 프로퍼티를 통해 자신의 프로토타입, 즉 자신의 [[Prototype]] 내부 슬롯이 가리키는 프로토타입에 간접적으로 접근할 수 있고 프로토타입은 자신의 constructor 프로퍼티를 통해 생성자 함수에 접근할 수 있고 생성자 함수는 자신의 prototype 프로퍼티를 통해 프로토타입에 접근할 수 있다.
+
+    ![https://blog.kakaocdn.net/dn/t0fbj/btq8xD4TKhL/PY96Ii9IIZGkAE1ydw8lr1/img.jpg](https://blog.kakaocdn.net/dn/t0fbj/btq8xD4TKhL/PY96Ii9IIZGkAE1ydw8lr1/img.jpg)
+
+- Object.prototype의 접근자 프로퍼티인 __proto__는 getter/setter 함수라고 부르는 접근자 함수([[Get]], [[Set]] 프로퍼티 어트리뷰트에 할당된 함수)를 통해 [[Prototype]] 내부 슬롯의 값, 즉 프로토타입을 취득하거나 할당한다.
+
+    ```jsx
+    const obj = {};
+    const parent = { x: 1 };
+
+    // getter 함수인 get __proto__가 호출되어 obj 객체의 프로토타입을 취득
+    obj.__proto__;
+
+    // setter 함수인 set __proto__가 호출되어 obj 객체의 프로토타입을 교체
+    obj.__proto__ = parent;
+
+    console.log(obj.x); // 1
+    ```
+
+- __proto__ 접근자 프로퍼티는 객체가 직접 소유하는 프로퍼티가 아니라 Object.prototype의 프로퍼티다. 모든 객체는 상속을 통해 Object.prototype.__proto__ 접근자 프로퍼티를 사용할 수 있다.
+- __proto__ 접근자 프로퍼티를 통해 프로토타입에 접근하는 이유는 상호 참조에 의해 프로토타입 체인이 생성되는 것을 방지하기 위해서다. 서로가 자신의 프로토타입이 되는 비정상적인 프로토타입 체인이 만들어지면 __proto__ 접근자 프로퍼티는 에러를 발생시킨다.
+
+    ![https://blog.kakaocdn.net/dn/S6SQ4/btq8wKDsBvd/CVnotXDlPOrWRT1knX9We0/img.jpg](https://blog.kakaocdn.net/dn/S6SQ4/btq8wKDsBvd/CVnotXDlPOrWRT1knX9We0/img.jpg)
+
+- 프로토타입 체인은 단방향 링크드 리스트로 구현되어야 한다. 즉, 프로퍼티 검색 방향이 한쪽 방향으로만 흘러가야 한다.
+- __proto__ 접근자 프로퍼티 대신 프로토타입의 참조를 취득하고 싶은 경우에는 Object.getPrototypeOf 메서드를 사용하고, 프로토타입을 교체하고 싶은 경우에는 Object.setPrototypeOf 메서드를 사용할 것을 권장한다.
+
+    ```jsx
+    const obj = {};
+    const parent = { x: 1 };
+
+    // obj 객체의 프로토타입을 취득
+    Object.getPrototypeOf(obj); // obj.__proto__;
+    // obj 객체의 프로토타입을 교체
+    Object.setPrototypeOf(obj, parent);; // obj.__proto__ = parent;
+
+    console.log(obj.x); // 1
+    ```
+
+- prototype 프로퍼티는 생성자 함수가 생성할 객체(인스턴스)의 프로토타입을 가리킨다. 따라서 생성자 함수로서 호출할 수 없는 함수, 즉 non-constructor인 화살표 함수와 ES6 메서드 축약 표현으로 정의한 메서드는 prototype 프로퍼티를 소유하지 않으며 프로토타입도 생성하지 않는다.
+- 모든 객체가 가지고 있는(엄밀히 말하면 Object.prototype으로부터 상속받은) __proto__ 접근자 프로퍼티와 함수 객체만이 가지고 있는 prototype 프로퍼티는 결국 동일한 프로토타입을 가리킨다. __proto__ 접근자 프로퍼티는 모든 객체가 사용 주체이며 prototype 프로퍼티는 생성자 함수가 사용 주체이다.
+
+    ```jsx
+    // 생성자 함수
+    function Person(name) {
+      this.name = name;
+    }
+
+    const me = new Person('Lee');
+
+    // 결국 Person.prototype과 me.__proto__는 결국 동일한 프로토타입을 가리킨다.
+    console.log(Person.prototype === me.__proto__); // true
+
+    // me 객체의 생성자 함수는 Person이다.
+    console.log(me.constructor == Person); // true
+    ```
+
+- Person.prototype : Person 생성자 함수는 prototype 프로퍼티를 통해 자신이 생성할 인스턴스(이 경우에는 me)의 프로토타입을 할당
+- me.__proto__ : 객체 me의 __proto__ 접근자 프로퍼티를 통해 자신의 프로토타입에 접근
+
+    ![https://blog.kakaocdn.net/dn/0c5M6/btq8Bi50SIE/9ZBKouNdtaRLDVDdg8ZVI1/img.jpg](https://blog.kakaocdn.net/dn/0c5M6/btq8Bi50SIE/9ZBKouNdtaRLDVDdg8ZVI1/img.jpg)
+
+- Person 생성자 함수가 me 객체를 생성할 때 me 객체는 프로토타입의 constructor 프로퍼티를 통해 생성자 함수와 연결된다. me 객체는 프로토타입인 Person.prototype의 constructor 프로퍼티를 상속받아 사용할 수 있다.
+- 생성자 함수에 의해 생성된 인스턴스는 프로토타입의 constructor 프로퍼티에 의해 생성자 함수와 연결된다. 이때 constructor 프로퍼티가 가리키는 생성자 함수는 인스턴스를 생성한 생성자 함수다.
+
+    ![https://blog.kakaocdn.net/dn/bePefd/btq8z66mLiT/kVKEKQDkurlKT0IZbR3fK0/img.jpg](https://blog.kakaocdn.net/dn/bePefd/btq8z66mLiT/kVKEKQDkurlKT0IZbR3fK0/img.jpg)
+
+- 리터럴 표기법에 의해 생성된 객체도 상속을 위해 프로토타입이 필요하다. 따라서 리터럴 표기법에 의해 생성된 객체도 가상적인 생성자 함수를 갖는다. 프로토타입과 생성자 함수는 단독으로 존재할 수 없고 언제나 쌍(pair)로 존재한다.
+- 객체는 리터럴 표기법 또는 생성자 함수에 의해 생성되므로 결국 모든 객체는 생성자 함수와 연결되어 있다. 프로토타입은 생성자 함수가 생성되는 시점에 더불어 생성된다.
+
+> 💡  사용자 정의 생성자 함수와 프로토타입의 생성 시점
+
+- 생성자 함수로서 호출할 수 있는 함수, 즉 constructor는 함수 정의가 평가되어 함수 객체를 생성하는 시점에 프로토타입도 더불어 생성된다. 화살표 함수처럼 new 연산자와 함께 생성자 함수로서 호출할 수 없는 함수, 즉 non-constructor는 프로토타입이 생성되지 않는다.
+
+    ```jsx
+    // 함수 정의(constructor)가 평가되어 함수 객체를 생성하는 시점에 프로토타입도 더불어 생성된다.
+    console.log(Person.prototype); // {constructor: ƒ}
+
+    // 생성자 함수
+    function Person(name) {
+      this.name = name;
+    }
+
+    const Person = name => {
+      this.name = name;
+    };
+
+    // non-constructor는 프로토타입이 생성되지 않는다.
+    console.log(Person.prototype); // undefined
+    ```
+
+- 함수 선언문은 런타임 이전에 자바스크립트 엔진에 의해 먼저 실행되고 이때 프로토타입도 더불어 생성된다. 생성된 프로토타입은 Person 생성자 함수의 prototype 프로퍼티에 바인딩된다. 생성된 프로토타입은 오직 constructor 프로퍼티만을 갖는다.
+- 빌트인 생성자 함수가 아닌 사용자 정의 생성자 함수는 자신이 평가되어 함수 객체로 생성되는 시점에 프로토타입도 더불어 생성되며, 생성된 프로토타입의 프로토타입은 언제나 Object.prototype이다.
+
+    ![https://blog.kakaocdn.net/dn/ZRExW/btq8wy3Fq90/9vJDOk11FAP6ZenFjJ5PZK/img.jpg](https://blog.kakaocdn.net/dn/ZRExW/btq8wy3Fq90/9vJDOk11FAP6ZenFjJ5PZK/img.jpg)
+
+> 💡  빌트인 생성자 함수와 프로토타입의 생성 시점
+
+- Object, String, Number, Function, Array, RegExp, Date, Promise 등과 같은 빌트인 생성자 함수도 일반 함수와 마찬가지로 빌트인 생성자 함수가 생성되는 시점에 프로토타입이 생성된다. 모든 빌트인 생성자 함수는 전역 객체가 생성되는 시점에 생성된다. 생성된 프로토타입은 빌트인 생성자 함수의 prototype 프로퍼티에 바인딩된다.
+
+    ![https://blog.kakaocdn.net/dn/NqS13/btq8z7RSOns/EfiZurbieTQIEfruNmvp40/img.jpg](https://blog.kakaocdn.net/dn/NqS13/btq8z7RSOns/EfiZurbieTQIEfruNmvp40/img.jpg)
+
+- 객체가 생성되기 이전에 생성자 함수와 프로토타입은 이미 객체화되어 존재한다. 이후 생성자 함수 또는 리터럴 표기법으로 객체를 생성하면 프로토타입은 생성된 객체의 [[Prototype]] 내부 슬롯에 할당되고 생성된 객체는 프로토타입을 상속받는다.
