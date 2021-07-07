@@ -320,3 +320,121 @@ function Circle(radius) {
 }
 ```
 
+---
+# 18장 함수와 일급객체(https://www.notion.so/18-78e940dca87e4518b37a02effa4e6fc0)
+□ 자바스크립트 함수 **일급 객체**
+
+```jsx
+// 1. 리터럴( 값 )로 생성 가능
+const increase = function(num) {
+    return ++num;
+}
+
+const decrease = function(num) {
+    return --num;
+}
+
+// 2. 변수나 자료 구조( 객체, 배열 등 ) 할당 가능
+const predicates = { increase, decrease };
+
+// 3. 함수 매개변수, 반환변수 전달 가능
+function makeCounter(predicates) {
+    let num = 0;
+
+    return function() {
+        num = predicates(num);
+        return num;
+    };
+}
+
+const increaser = makeCounter(predicates.increase);
+console.log(increaser()); // 1
+const decreaser = makeCounter(predicates.decrease);
+console.log(decreaser()); // -1
+```
+
+□ 함수 객체 프로퍼티
+
+- arguments 프로퍼티 : 인수들의 정보를 담고 있는 유사 배열 객체
+
+```jsx
+/* 가변 인자 함수 구현 */
+
+// arguments 프로퍼티( 객체 )
+function sum() {
+    const arr = Array.prototype.slice.call(arguments); // arguments 객체 배열로 변환
+    return arr.reduce(function(pre, cur) { // 배열 메소드 reduce 사용
+        return pre + cur;
+    }, 0);
+}
+sum(1, 2, 3, 4, 5); // 15
+
+// ES6 Rest 파라미터( 배열 )
+function sum(...args) { // 배열 매개 변수
+    return args.reduce((pre, cur) => pre + cur, 0);
+}
+sum(1, 2, 3, 4, 5);
+```
+
+- caller 프로퍼티 : 비표준 프로퍼티 패스~ > 자신을 호출한 함수 가리킴
+
+```jsx
+function foo(func) {
+    return func();
+}
+
+function bar() {
+    return 'caller : '+ bar.caller;
+}
+
+console.log(bar());    // null
+console.log(foo(bar)); // foo 함수
+```
+
+- length 프로퍼티 : 매개변수의 개수
+    - arguments.length 프로퍼티 : 호출 시 전달된 인수의 개수
+
+```jsx
+function foo(x) { 
+    console.log(arguments.length); // 2
+}
+
+foo(1, 2);               
+console.log(foo.length); // 1
+```
+
+- name 프로퍼티 : 함수 이름 나타냄
+
+```jsx
+// 기명 함수 표현식 : 함수명
+var namedFunc = function foo() {};
+console.log(namedFunc.name); // foo
+
+// 익명 함수 표현식
+// ES 5 : 빈 문자열 값
+// ES 6 : 함수 객체 식별자
+var anonymousFunc = function() {};
+console.log(anonymousFunc.name); // anonymousFunc
+
+// 함수 선언문 : 함수 객체 식별자
+function bar() {}
+console.log(bar.name); // bar
+```
+
+- __proto__ 접근자 프로퍼티 : 생성자 함수 prototype 접근
+
+```jsx
+const obj = { a: 1 };
+console.log(obj.__proto__ == Object.prototype); // true
+
+// 객체 고유의 프로퍼티 확인 메서드
+console.log(obj.hasOwnProperty('a')); // true
+console.log(obj.hasOwnProperty('__proto__')); // 상속 프로퍼티 false
+```
+
+- 생성자 함수( constructor만 소유 ) prototype 프로퍼티 : 인스턴스 prototype 할당
+
+```jsx
+(function() {}).hasOwnProperty('prototype'); // 함수 객체 true
+({}).hasOwnProperty('prototype'); // 일반 객체 false
+```
