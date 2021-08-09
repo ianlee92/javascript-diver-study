@@ -112,6 +112,192 @@ Array.prototype.flatMap: map 메서드를 통해 생성된 새로운 배열을 �
 
 ### 📅 2021년 7월 29일 목요일
 # 📚 28장 Number
+1. Number 생성자 함수
+    - Number 생성자 함수의 인수로 숫자를 전달하면서 new 연산자와 함께 호출하면 [[NumberData]] 내부 슬롯에 인수로 전달받은 숫자를 할당한 Number 래퍼 객체를 생성한다. [[PrimitiveValue]]라는 접근할 수 없는 프로퍼티는 [[NumberData]] 내부 슬롯을 가리킨다. 인수를 숫자로 변환할 수 없다면 NaN을 [[NumberData]] 내부 슬롯에 할당한 Number 래퍼 객체를 생성한다.
+
+    ```jsx
+    let numbObj = new Number('10');
+    console.log(numObj); // Number {[[PrimitiveValue]]: 10}
+
+    numbObj = new Number('Hello');
+    console.log(numObj); // Number {[[PrimitiveValue]]: NaN}
+    ```
+
+2. Number 프로퍼티
+
+    Number.EPSILON
+
+    Number.MAX_VALUE
+
+    Number.MIN_VALUE
+
+    Number.MAX_SAFE_INTEGER
+
+    Number.MIN_SAFE_INTEGER
+
+    Number.POSITIVE_INFINITY
+
+    Number.NEGATIVE_INFINITY
+
+    Number.NAN
+
+3. Number 메서드
+
+    Number.inFinite
+
+    Number.isInteger
+
+    Number.inNaN
+
+    Number.isSafeInteger
+
+    Number.prototype.toExponential
+
+    Number.prototype.toFixed
+
+    Number.prototype.toPrecision
+
+    Number.prototype.toString
 # 📚 29장 Math
+- Math는 생성자 함수가 아니므로 정적 프로퍼티와 정적 메서드만 제공한다.
+1. Math 프로퍼티
+
+    Math.PI
+
+2. Math 메서드
+
+    Math.abs
+
+    Math.round
+
+    Math.ceil
+
+    Math.floor
+
+    Math.sqrt
+
+    Math.random
+
+    Math.pow
+
+    Math.max
+
+    Math.min
 # 📚 30장 Date
+- Date 메서드
+
+    Date.now
+
+    Date.parse
+
+    Date.UTC
+
+    Date.prototype.getFullYear
+
+    Date.prototype.setFullYear
+
+    Date.prototype.getMonth
+
+    Date.prototype.setMonth
+
+    Date.prototype.getDate
+
+    Date.prototype.setDate
+
+    Date.prototype.getDay
+
+    Date.prototype.getHours
+
+    Date.prototype.setHours
+
+    Date.prototype.getMinutes
+
+    Date.prototype.setMinutes
+
+    Date.prototype.getSeconds
+
+    Date.prototype.setSeconds
+
+    Date.prototype.getMilliseconds
+
+    Date.prototype.setMilliseconds
+
+    Date.prototype.getTime
+
+    Date.prototype.setTime
+
+    Date.prototype.getTimezoneOffset
+
+    Date.prototype.toDateString
+
+    Date.prototype.toTimeString
+
+    Date.prototype.toISOString
+
+    Date.prototype.toLocaleString
+
+    Date.prototype.toLocaleTimeString
+
+![https://blog.kakaocdn.net/dn/Qryjr/btraIn0iwBp/L2fHHt4qCmC8ubWkyrBWm1/img.png](https://blog.kakaocdn.net/dn/Qryjr/btraIn0iwBp/L2fHHt4qCmC8ubWkyrBWm1/img.png)
+
+![https://blog.kakaocdn.net/dn/Zvcvu/btraLsT4vzN/3UzlhheBkBduTPSmnkWvH0/img.png](https://blog.kakaocdn.net/dn/Zvcvu/btraLsT4vzN/3UzlhheBkBduTPSmnkWvH0/img.png)
 # 📚 31장 RegExp
+- 정규 표현식(regular expression)은 일정한 패턴을 가진 문자열의 집합을 표현하기 위해 사용하는 형식 언어(formal language)다.
+- 정규 표현식 객체(RegExp 객체)를 생성하기 위해서는 정규 표현식 리터럴과 RegExp 생성자 함수를 사용할 수 있다. 일반적인 방법은 정규 표현식 리터럴을 사용하는 것이다. 리터럴은 패턴과 플래그로 구성된다.
+- 정규 표현식의 패턴은 문자열의 일정한 규칙을 표현하기 위해 사용하며, 정규 표현식의 플래그는 정규 표현식의 검색 방식을 설정하기 위해 사용한다.
+
+![https://blog.kakaocdn.net/dn/bgmUbb/btraKEUPAoh/pPoNJWjUMMxVGU5kZ0Y4g1/img.png](https://blog.kakaocdn.net/dn/bgmUbb/btraKEUPAoh/pPoNJWjUMMxVGU5kZ0Y4g1/img.png)
+
+> 💡 플래그
+
+![https://blog.kakaocdn.net/dn/oyV1T/btraKD9jND7/TV7zOO7rqk7klgLLTMKaN1/img.png](https://blog.kakaocdn.net/dn/oyV1T/btraKD9jND7/TV7zOO7rqk7klgLLTMKaN1/img.png)
+
+- RegExp 메서드
+
+    RegExp.prototype.exec
+
+    RegExp.prototype.test
+
+    String.prototype.match
+
+- 임의의 문자열 검색
+
+    . 은 임의의 문자 한 개를 의미한다. 문자의 내용은 무엇이든 상관없다.
+
+- 반복 검색
+
+    {m,n}은 최소 m번, 최대 n번 반복되는 문자열을 의미한다. 콤마 뒤에 공백이 있으면 정상 동작하지 않으므로 주의하기 바란다.
+
+    {n,}은 앞선 패턴이 최소 n번 이상 반복되는 문자열을 의미한다.
+
+    +는 앞선 패턴이 최소 한번 이상 반복되는 문자열을 의미한다. 즉, +는 {1,}과 같다.
+
+    ?는 앞선 패턴이 최대 한 번(0번 포함) 이상 반복되는 문자열을 의미한다. 즉, ?는 {0,1}과 같다.
+
+- OR 검색
+
+    |은 or의 의미를 갖는다. 분해되지 않은 단어 레벨로 검색하기 위해서는 +를 함께 사용한다.
+
+    []내의 문자는 or로 동작한다. 뒤에 +를 사용하면 앞선 패턴을 한 번 이상 반복한다.
+
+    범위를 지정하려면 []내에 -를 사용한다.
+
+    대소문자 구별하지 않고 알파벳 검색 : /[A-Za-z]+/
+
+    숫자 검색 : /[0-9]+/
+
+    \d는 숫자를 의미하므로 [0-9]과 같다. \D는 \d와 반대로 숫자가 아닌 문자를 의미한다.
+
+    \w는 알파벳, 숫자, 언더스코어를 의미한다. \w는 [A-Za-z0-9_]와 같다. \W는 \w와 반대로 알파벳, 숫자, 언더스코어가 아닌 문자를 의미한다.
+
+- NOT 검색
+
+    [...] 내의 ^는 not의 의미를 갖는다.
+
+- 시작 위치로 검색
+
+    [...] 밖의 ^는 문자열의 시작을 의미한다.
+
+- 마지막 위치로 검색
+
+    $는 문자열의 마지막을 의미한다
