@@ -169,3 +169,104 @@
 ### 📅 2021년 8월 12일 목요일
 # 📚 39장 DOM (p685~713)
 - DOM 컬렉션 객체인 HTMLCollection과 NodeList는 DOM API가 여러 개의 결과값을 반환하기 위한 DOM 컬렉션 객체다. 스프레드 문법을 사용하여 간단히 배열로 변환할 수 있고 노드 객체의 상태 변경과 상관없이 안전하게 DOM 컬렉션을 사용하려면 배열로 변환하여 사용하는 것을 권장한다.
+
+> 💡 노드 정보 취득
+
+- Node.prototype.nodeType: 노드 타입을 나타내는 상수로 반환. 1: 요소 노드 타입, 3: 텍스트 노드 타입, 9: 문서 노드 타입
+- Node.prototype.nodeName: 노드의 이름을 문자열로 반환. 요소 노드, 텍스트 노드, 문서 노드
+
+    ```html
+    <!DOCTYPE html>
+    <html>
+      <body>
+        <div id="foo">Hello</div>
+      </body>
+      <script>
+        // 문서 노드의 노드 정보를 취득한다.
+        console.log(document.nodeType); // 9
+        console.log(document.nodeName); // #document
+        
+        // 요소 노드의 노드 정보를 취득한다.
+        const $foo = document.getElementById('foo');
+        console.log($foo.nodeType); // 1
+        console.log($foo.nodeName); // DIV
+        
+        // 텍스트 노드의 노드 정보를 취득한다.
+        const $testNode = $foo.firstChild;
+        console.log($testNode.nodeType); // 3
+        console.log($testNode.nodeName); // #text
+      </script>
+    </html>
+    ```
+
+
+> 💡 DOM 조작
+
+- Element.prototype.innerHTML 프로퍼티는 요소 노드의 콘텐츠 영역 내에 포함된 모든 HTML 마크업을 문자열로 반환한다.
+- innerHTML 프로퍼티를 사용한 DOM 조작은 구현이 간단하고 직관적이라는 장점이 있지만 크로스 사이트 스크립팅 공격(XSS)에 취약한 단점도 있다. 그리고 기존의 자식 노드까지 모두 제거하고 다시 처음부터 새롭게 자식 노드를 생성하여 DOM에 반영하므로 효율적이지 않고 새로운 요소를 삽입할 때 삽입될 위치를 지정할 수 없다는 단점도 있다.
+
+    ```html
+    <!DOCTYPE html>
+    <html>
+      <body>
+        <ul id="fruits">
+          <li class="apple">Apple</li>
+        </ul>
+      </body>
+      <script>
+        const $fruits = document.getElementById('fruits');
+        
+        // 노드 추가
+        $fruits.innerHTML += '<li class="banana">Banana</li>';
+        
+        // 노드 교체
+        $fruits.innerHTML = '<li class="orange">Orange</li>';
+        
+        // 노드 삭제
+        $fruits.innerHTML = '';
+      </script>
+    </html>
+    ```
+
+- Element.prototype.insertAdjacentHTML(position, DOMString) 메서드는 기존 요소를 제거하지 않으면서 위치를 지정해 새로운 요소를 삽입한다. 기존 요소에는 영향을 주지 않고 새롭게 삽입될 요소만을 파싱하여 자식 요소로 추가하므로 innerHTML 프로퍼티보다 효율적이고 빠르지만 마찬가지로 HTML 마크업 문자열을 파싱하므로 크로스 사이트 스크립팅 공격에 취약하다는 점은 동일하다.
+- innerHTML 프로퍼티와 insertAdjacentHTML 메서드는 HTML 마크업 문자열을 파싱하여 노드를 생성하고 DOM에 반영한다. DOM은 노드를 직접 생성/삽입/삭제/치환하는 메서드도 제공한다.
+
+    ```html
+    <!DOCTYPE html>
+    <html>
+      <body>
+        <ul id="fruits">
+          <li>Apple</li>
+        </ul>
+      </body>
+      <script>
+      const $fruits = document.getElementById('fruits');
+      
+      // 1. 요소 노드 생성
+      const $li = document.createElement('li');
+      
+      // 2. 텍스트 노드 생성
+      const $textNode = document.createTextNode('Banana');
+      
+      // 3. 텍스트 노드를 $li 요소 노드의 자식 노드로 추가
+      $li.appendChild(textNode);
+      
+      // 4. $li 요소 노드를 #fruits 요소 노드의 마지막 자식 노드로 추가
+      $fruits.appendChild($li);
+      </script>
+    </html>
+    ```
+
+    - Document.prototype.createElement(tagName) 메서드는 요소 노드를 생성하여 반환한다. 요소 노드를 생성할 뿐 DOM에 추가되지 않고 홀로 존재하고 자식 노드인 텍스트 노드도 없는 상태다.
+    - Document.prototype.createTextNode(text) 메서드는 텍스트 노드를 생성하여 반환한다. 매개변수 text에는 텍스트 노드의 값으로 사용할 문자열을 인수로 전달한다. createElement 메서드와 마찬가지로 텍스트 노드를 생성할 뿐 요소 노드에 추가하지 않는다.
+    - Node.prototype.appendChild(childNode) 메서드는 매개변수 childNode에게 인수로 전달한 노드를 메서드를 호출한 노드의 마지막 자식 노드로 추가한다. appendChild 메서드를 통해 요소 노드와 텍스트 노드는 부자 관계로 연결되었지만 아직 기존 DOM에 추가되지 않은 상태다.
+
+        ```jsx
+        // 텍스트 노드를 생성하여 요소 노드의 자식 노드로 추가
+        $li.appendChild(document.createTextNode('Banana'));
+
+        // $li 요소 노드에 자식 노드가 하나도 없는 위 코드와 동일하게 동작한다.
+        $li.textContent = 'Banana';
+        ```
+
+    - 요소 노드를 DOM에 추가할 때도 appendChild 메서드를 사용하여 텍스트 노드와 부자 관계로 연결한 요소 노드를 $fruits 요소 노드의 마지막 자식 요소로 추가한다. 비로소 새롭게 생성한 요소 노드가 DOM에 추가된다. 단 하나의 요소 노드를 생성하여 DOM에 한번 추가하므로 DOM은 한 번 변경된다. 이때 리플로우와 리페인트가 실행된다.
