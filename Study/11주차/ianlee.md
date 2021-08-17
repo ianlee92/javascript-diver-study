@@ -51,7 +51,7 @@
 - HTML 문서의 구성 요소인 HTML 요소는 여러 개의 어트리뷰트를 가질 수 있다. HTML 요소의 동작을 제어하기 위한 추가적인 정보를 제공하는 HTML 어트리뷰트는 HTML 요소의 시작 태그에 어트리뷰트 이름="어트리뷰트 값" 형식으로 정의한다.
 
     ```jsx
-    <input id="user" type="text" value="ungmo2">
+    <input id="user" type="text" value="ian">
     ```
 
 - HTML 어트리뷰트 값을 참조하려면 Element.prototype.getAttribute(attributeName) 메서드를 사용하고, HTML 어트리뷰트 값을 변경하려면 Element.prototype.setAttribute(attributeName, attributeValue)메서드를 사용한다. setAttribute 메서드는 노드에서 관리하는 HTML 요소에 지정한 어트리뷰트 값, 즉 초기 상태값을 변경한다.
@@ -60,13 +60,13 @@
     <!DOCTYPE html>
     <html>
     <body>
-      <input id="user" type="text" value="ungmo2">
+      <input id="user" type="text" value="ian">
       <script>
         const $input = document.getElementById('user');
         
         // value 어트리뷰트 값을 취득
         const inputValue = $input.getAttribute('value');
-        console.log(inputValue); // ungmo2
+        console.log(inputValue); // ian
         
         // value 어트리뷰트 값을 변경
         $input.setAttribute('value', 'foo');
@@ -91,7 +91,7 @@
     <!DOCTYPE html>
     <html>
     <body>
-      <input id="user" type="text" value="ungmo2">
+      <input id="user" type="text" value="ian">
       <script>
         const $input = document.getElementById('user');
         
@@ -101,7 +101,7 @@
         
         // getAttribute 메서드로 취득한 HTMl 어트리뷰트 값
         // 즉 초기 상태 값은 변하지 않고 유지된다.
-        console.log($input.getATtribute('value')); // ungmo2
+        console.log($input.getATtribute('value')); // ian
       </script>
     </body>
     </html>
