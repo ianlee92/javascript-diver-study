@@ -35,6 +35,16 @@ clearTimeout(tiemrId);
     ![https://blog.kakaocdn.net/dn/T96iI/btrc1vtTkRI/LtCTLAMToXtMGnJvsJUcA0/img.png](https://blog.kakaocdn.net/dn/T96iI/btrc1vtTkRI/LtCTLAMToXtMGnJvsJUcA0/img.png)
 
 - JSON(JavaScript Object Notation)은 클라이언트와 서버 간의 HTTP 통신을 위한 텍스트 데이터 포맷이다. 자바스크립트에 종속되지 않는 언어 독립형 데이터 포맷으로, 대부분의 프로그래밍 언어에서 사용할 수 있다. JSON은 객체 리터럴과 유사하게 키와 값으로 구성된 순수한 텍스트로 키는 반드시 큰따옴표로 묶어야 한다. 값은 객체 리터럴과 같은 표기법을 그대로 사용할 수 있지만 문자열은 반드시 큰따옴표로 묶어야 한다.
+
+    ```jsx
+    {
+      "name": "Lee",
+      "age": 20,
+      "alive": true,
+      "hobby": ["traveling", "tennis"]
+    }
+    ```
+
 - JSON.stringify 메서드는 객체를 JSON 포맷의 문자열로 변환하고(직렬화) JSON.parse 메서드는 JSON 포맷의 문자열을 객체로 변환한다.(역직렬화)
 - 브라우저는 주소창이나 HTML의 form 태그 또는 a 태그를 통해 HTTP 요청 전송 기능을 기본 제공한다. 자바스크립트를 사용하여 HTTP 요청을 전송하려면 Web API인 XMLHttpReqeust 객체를 사용한다.
 
