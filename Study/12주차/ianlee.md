@@ -50,4 +50,90 @@ clearTimeout(tiemrId);
 
 ### 📅 2021년 8월 26일 목요일
 # 📚 44장 REST API
+- REST(REpresentational State Transfer)의 기본 원칙을 성실히 지킨 서비스 디자인을 "RESTful"이라고 표현한다. 즉, REST는 HTTP를 기반으로 클라이언트가 서버의 리소스에 접근하는 방식을 규정한 아키텍처고, REST API는 REST를 기반으로 서비스 API를 구현한 것을 의미한다.
+- URI는 리소스를 표현(동사보다는 명사)하고 리소스에 대한 행위는 HTTP 요청 메서드로 표현한다. 주로 5가지 요청 메서드(GET, POST, PUT, PATCH, DELETE)를 사용하여 CRUD를 구현한다.
+
+    ![https://blog.kakaocdn.net/dn/cjmU6y/btrc7OzdeOI/C2iOLoFT5z6DCb6ArUMnuk/img.png](https://blog.kakaocdn.net/dn/cjmU6y/btrc7OzdeOI/C2iOLoFT5z6DCb6ArUMnuk/img.png)
+
+- load 이벤트는 요청이 성공적으로 완료된 경우 발생한다. status 프로퍼티 값이 200이면 정상적으로 응답된 상태이고, POST 요청 때 201(Created)일 때도 정상적으로 응답된 상태이다.
 # 📚 45장 프로미스
+- ES6에서 비동기 처리를 위한 또 다른 패턴으로 프로미스(Promise)를 도입했다. 프로미스는 전통적인 콜백 패턴이 가진 단점을 보완하며 비동기 처리 시점을 명확하게 표현할 수 있다는 장점이 있다.
+- 비동기 함수 내부의 비동기로 동작하는 코드는 비동기 함수가 종료된 이후에 완료된다. 따라서 비동기 함수 내부의 비동기로 동작하는 코드에서 처리 결과를 외부로 반환하거나 상위 스코프의 변수에 할당하면 기대한 대로 동작하지 않는다.
+- 콜백 함수를 통해 비동기 처리 결과에 대한 후속 처리를 수행하는 비동기 함수가 비동기 처리 결과를 가지고 또다시 비동기 함수를 호출해야 한다면 콜백 함수 호출이 중첩되어 복잡도가 높아지는 현상이 발생하는데, 이를 콜백 헬(callback hell)이라 한다.
+
+    ![https://blog.kakaocdn.net/dn/ElT5l/btrc1fetGXB/UYyKIilHk8b8gKsBbURJWK/img.png](https://blog.kakaocdn.net/dn/ElT5l/btrc1fetGXB/UYyKIilHk8b8gKsBbURJWK/img.png)
+
+- Promise 생성자 함수는 비동기 처리를 수행할 콜백 함수를 인수로 전달받는데 이 콜백 함수는 resolve와 reject 함수를 인수로 전달받는다.
+
+    ```jsx
+    // 프로미스 생성
+    const promise = new Promise((resolve, reject) => {
+      // Promise 함수의 콜백 함수 내부에서 비동기 처리를 수행한다.
+      if (/* 비동기 처리 성공 */) {
+        resolve('result');
+      } else { /* 비동기 처리 실패 */
+        reject('failure reason');
+      }
+    });
+    ```
+
+- 비동기 처리가 성공하면 프로미스는 pending 상태에서 fulfilled 상태로 변화한다. 비동기 처리가 실패하면 프로미스는 pending 상태에서 rejected 상태로 변화한다. 즉, 프로미스는 비동기 처리 상태와 처리 결과를 관리하는 객체다.
+
+    ![https://blog.kakaocdn.net/dn/brJOdT/btrc11Ntl9f/4DLUTwaPn2vLkO8YSkEOx1/img.png](https://blog.kakaocdn.net/dn/brJOdT/btrc11Ntl9f/4DLUTwaPn2vLkO8YSkEOx1/img.png)
+
+프로미스의 후속 처리 메서드
+
+- Promise.prototype.then: 두 개의 콜백 함수(fulfilled, rejected 상태인 경우 호출)를 인수로 전달받는다. 첫 번째 콜백 함수는 비동기 처리가 성공했을 때 호출되는 성공 처리 콜백 함수이며, 두 번째 콜백 함수는 비동기 처리가 실패했을 때 호출되는 실패 처리 콜백 함수다.
+
+    ```jsx
+    // fulfilled
+    new Promise(resolve => resolve('fulfilled'))
+      .then(v => console.log(v), e => console.error(e)); // fulfilled
+
+    // rejected
+    new Promise((_, reject) => reject(new Error('rejected')))
+      .then(v => console.log(v), e => console.error(e)); // Error: rejected
+    ```
+
+- Promise.prototype.catch: 한 개의 콜백 함수(rejected 상태인 경우 호출)를 인수로 전달받는다.
+- Promise.prototype.finally: 한 개의 콜백 함수를 인수로 전달받는다. 프로미스의 성공(fulfilled) 또는 실패(rejected)와 상관없이 무조건 한 번 호출된다.
+
+    ```jsx
+    const promiseGet = url => {
+      return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', url);
+        xhr.send();
+        
+        xhr.onload = () => {
+          if (xhr.status === 200) {
+            // 성공적으로 응답을 전달받으면 resolve 함수를 호출한다.
+            resolve(JSON.parse(xhr.response));
+          } else {
+            // 에러 처리를 위해 reject 함수를 호출한다.
+            reject(new Error(xhr.status));
+          }
+        };
+      });
+    }
+
+    // promiseGet 함수는 프로미스를 반환한다.
+    promiseGet('https://jsonplaceholder.typicode.com/posts/1')
+      .then(res => console.log(res))
+      .catch(err => console.error(err))
+      .finally(() => console.log('Bye!'));
+    ```
+
+- then, catch, finally 후속 처리 메서드는 언제나 프로미스를 반환하므로 연속적으로 호출할 수 있는데 이를 프로미스 체이닝(promise chaining)이라 한다.
+- 프로미스는 프로미스 체이닝을 통해 비동기 처리 결과를 전달받아 후속 처리를 하므로 비동기 처리를 위한 콜백 패턴에서 발생하던 콜백 헬이 발생하지 않지만 프로미스도 콜백 패턴을 사용하므로 콜백 함수를 사용하지 않는 것은 아니다. 콜백 패턴은 가독성이 좋지 않기 때문에 ES8에서 도입된 async/await를 통해 해결할 수 있다.
+- 프로미스의 후속 처리 메서드의 콜백 함수는 태스크 큐가 아니라 마이크로태스크 큐에 저장되며 태스크 큐보다 우선순위가 높다. 즉, 이벤트 루프는 콜 스택이 비면 먼저 마이크로태스크 큐에서 대기하고 있는 함수를 가져와 실행한 이후 마이크로태스크 큐가 비면 태스크 큐에서 대기하고 있는 함수를 가져와 실행한다.
+
+    ```jsx
+    setTimeout(() => console.log(1), 0);
+
+    Promise.resolve()
+      .then(() => console.log(2))
+      .then(() => console.log(3));
+      
+    // 2 -> 3 -> 1의 순으로 출력된다.
+    ```
