@@ -81,7 +81,7 @@ clearTimeout(tiemrId);
 
     ![https://blog.kakaocdn.net/dn/brJOdT/btrc11Ntl9f/4DLUTwaPn2vLkO8YSkEOx1/img.png](https://blog.kakaocdn.net/dn/brJOdT/btrc11Ntl9f/4DLUTwaPn2vLkO8YSkEOx1/img.png)
 
-프로미스의 후속 처리 메서드
+> 💡 프로미스 후속 처리 메서드
 
 - Promise.prototype.then: 두 개의 콜백 함수(fulfilled, rejected 상태인 경우 호출)를 인수로 전달받는다. 첫 번째 콜백 함수는 비동기 처리가 성공했을 때 호출되는 성공 처리 콜백 함수이며, 두 번째 콜백 함수는 비동기 처리가 실패했을 때 호출되는 실패 처리 콜백 함수다.
 
